@@ -10,5 +10,20 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
+
+        StandardCalculator calc = new StandardCalculator();
+        StandardCalculator.getVersion();
+        calc.add(10, 20);
+        System.out.println("Addition of two given numbers are: "+ calc.getResult());
+        calc.subtract(20, 20);
+        System.out.println("Subtraction of two given numbers are: "+ calc.getResult());
+        calc.clearResult();
+        calc.multiply(2, 5);
+        System.out.println("Multiplication of two given numbers are: "+ calc.getResult());
+        calc.division(20, 5);
+        System.out.println(calc.getResult());
+        calc.printResult();
+        
+
     }
 }
