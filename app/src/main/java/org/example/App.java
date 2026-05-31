@@ -3,27 +3,62 @@
  */
 package org.example;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
-
-        StandardCalculator calc = new StandardCalculator();
-        StandardCalculator.getVersion();
-        calc.add(10, 20);
-        System.out.println("Addition of two given numbers are: "+ calc.getResult());
-        calc.subtract(20, 20);
-        System.out.println("Subtraction of two given numbers are: "+ calc.getResult());
-        calc.clearResult();
-        calc.multiply(2, 5);
-        System.out.println("Multiplication of two given numbers are: "+ calc.getResult());
-        calc.division(20, 5);
-        System.out.println(calc.getResult());
-        calc.printResult();
+        System.out.println("=== Welcome to the Calculator App ===");
         
+        try(Scanner sc = new Scanner(System.in);){
+            int num1 = readInt(sc, "Enter the first number: ");
+            int num2 = readInt(sc, "Enter the second number: ");
 
+            StandardCalculator calc = new StandardCalculator(num1, num2);
+            StandardCalculator.printVersion();
+
+            performOperations(calc, num1, num2);
+
+            sc.close();
+        } catch(ArithmeticException e){
+            System.err.println("Math err       : " + e.getMessage());
+        } catch(Exception e){
+            System.err.println("Unexpected err     : " + e.getMessage());
+        }
     }
+
+    private static int readInt(Scanner sc, String prompt){
+        while(true){
+            System.out.print(prompt);
+            try{
+                return sc.nextInt();
+            } catch(InputMismatchException e){
+                System.err.println("Invalid input. Please enter a whole number. ");
+                sc.nextLine();
+            }
+        }
+    }
+
+    private static void performOperations(StandardCalculator calc, int num1, int num2){
+        System.out.println("\n--- Results ---");
+
+        calc.clearResult();
+
+        calc.add(num1, num2);
+        System.out.printf("Addition   : %d + %d = %.2f%n", num1, num2, calc.getResult());
+
+        calc.subtract(num1, num2);
+        System.out.printf("Subtraction of   : %d - %d = %.2f%n", num1, num2, calc.getResult());
+
+        calc.multiply(num1, num2);
+        System.out.printf("Multiplication of    : %d * %d = %.2f%n", num1, num2, calc.getResult());
+
+        calc.division(num1, num2);
+        System.out.printf("Division of   : %d / %d = %.2f%n", num1, num2, calc.getResult());
+
+        System.out.println();
+        calc.printResult();
+    }    
+    
 }
